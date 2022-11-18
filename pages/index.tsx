@@ -1,7 +1,11 @@
-export default function indexPage() {
+import Nav from '../components/Nav';
+
+const MainPage = () => {
   return (
     <div>
-      <h2 className='font-bold'>main</h2>
+      <Nav />
+      <h2>main</h2>
     </div>
   );
-}
+};
+export default MainPage;

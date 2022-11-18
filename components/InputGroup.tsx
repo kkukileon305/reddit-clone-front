@@ -1,21 +1,20 @@
-import { FieldError, UseFormRegister } from 'react-hook-form';
-import { Inputs } from '../pages/register';
+import { FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
-interface InputGroupProps {
+interface InputGroupProps<T extends FieldValues> {
   minLength: number;
   requiredMessage: string;
   minMessage: string;
   placeholder: string;
-  register: UseFormRegister<Inputs>;
+  register: UseFormRegister<T>;
   error: FieldError | undefined;
-  input: 'email' | 'username' | 'password';
+  input: Path<T>;
 }
 
-const InputGroup = ({ requiredMessage, minMessage, minLength, placeholder, register, error, input }: InputGroupProps) => {
+const InputGroup = <T extends FieldValues>({ requiredMessage, minMessage, minLength, placeholder, register, error, input }: InputGroupProps<T>) => {
   return (
     <>
       <input
-        className='border p-2 mb-2 rounded block w-full focus:outline-none'
+        className={`border p-2 mb-2 rounded block w-full focus:outline-none ${error ? 'border-red-500' : ''}`}
         placeholder={placeholder}
         {...register(input, {
           required: { value: true, message: requiredMessage },
@@ -24,11 +23,9 @@ const InputGroup = ({ requiredMessage, minMessage, minLength, placeholder, regis
             message: minMessage,
           },
         })}
-        style={{ border: error ? '1px solid red' : '' }}
       />
-      <p className='mb-2' style={{ color: error ? 'red' : '' }}>
-        {error ? error.message : '좋아요'}
-      </p>
+
+      <p className={`mb-2 ${error ? 'text-red-500' : ''}`}>{error ? error.message : '좋아요'}</p>
     </>
   );
 };

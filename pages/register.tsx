@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import InputGroupProps from '../components/InputGroup';
+import InputGroup from '../components/InputGroup';
 
 export type Inputs = {
   email: string;
@@ -20,9 +20,9 @@ export default function Register() {
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password, username }) => {
     try {
-      const { data } = await axios.post('/auth/register', { email, password, username });
-      console.log(data);
-      // router.push('/login');
+      await axios.post('/auth/register', { email, password, username });
+
+      router.push('/login');
     } catch (error) {
       console.log(error);
 
@@ -40,7 +40,7 @@ export default function Register() {
     <div className='flex flex-col justify-center items-center min-h-[100vh]'>
       <form className='min-w-[400px]' onSubmit={handleSubmit(onSubmit)}>
         <h2 className='font-bold text-2xl mb-4'>회원가입</h2>
-        <InputGroupProps //
+        <InputGroup //
           error={errors.email}
           input={'email'}
           minLength={2}
@@ -49,7 +49,7 @@ export default function Register() {
           register={register}
           requiredMessage='입력해주세요'
         />
-        <InputGroupProps //
+        <InputGroup //
           error={errors.username}
           input={'username'}
           minLength={3}
@@ -58,7 +58,7 @@ export default function Register() {
           register={register}
           requiredMessage='입력해주세요'
         />
-        <InputGroupProps //
+        <InputGroup //
           error={errors.password}
           input={'password'}
           minLength={6}
@@ -71,8 +71,8 @@ export default function Register() {
         <input value='SIGN UP' className='block w-full bg-gray-600 my-4 py-2 rounded text-white font-bold' type='submit' />
       </form>
       <small>
-        이미 가입하셨나요?{' '}
-        <Link className='text-blue-400 font-bold' href={'login'}>
+        이미 가입하셨나요?
+        <Link className='text-blue-400 font-bold ml-2' href={'login'}>
           로그인
         </Link>
       </small>
